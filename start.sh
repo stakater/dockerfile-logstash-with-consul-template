@@ -6,5 +6,5 @@
 # mount as a volume from our host. The result is then placed in /config-dir/logstash.conf
 # where logstash will be able to read from.
 # Note -r (automatic reload) command argument is given so there's no need to reload logstash
-logstash -f /config-dir -r
-consul-template -consul=$CONSUL_URL -template="/templates/logstash.ctmpl:/config-dir/logstash.conf"
+logstash -f /config-dir/logstash.conf -r
+consul-template -consul=$CONSUL_URL -template="/templates/logstash.ctmpl:/config-dir/logstash.conf:logstash -f /config-dir/logstash.conf -r"
