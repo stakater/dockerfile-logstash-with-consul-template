@@ -13,7 +13,7 @@ RUN rm -rf /config-dir/*
 
 # we define an environment variable with the location of our Consul cluster. By default, it will try to resolve to
 # consul:8500 which would be the behavior if we have Consul running as a container in the same host and we link it to this
-# Nginx container (with the alias consul, of course). But this environment variable can also be overridden when we run the
+# Logstash container (with the alias consul, of course). But this environment variable can also be overridden when we run the
 # container if we want to point somewhere else.
 
 ENV CONSUL_URL consul:8500
