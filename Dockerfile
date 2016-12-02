@@ -30,14 +30,14 @@ RUN unzip /usr/bin/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip &&
 
 VOLUME /templates
 
-# add the start up script (which is used as the entrypoint to our containers)
-
-ADD start.sh /bin/start.sh
-
 # our container will expose port 5044, where Logstash will be running
 
 EXPOSE 5044
 
-# entrypoint will be the /bin/start.sh
+# Make daemon service dir for filebeat if it doesn't exist, and empty service directory for filebeat if it already contains a daemon file
+RUN mkdir -p /etc/service/logstash && rm -rf /etc/service/logstash/*
 
-ENTRYPOINT ["/bin/start.sh"]
+# Add daemon service for filebeat-with-consul
+ADD start.sh /etc/service/logstash/run
+
+# Use base image's entrypoint
