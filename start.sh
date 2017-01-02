@@ -7,4 +7,4 @@
 # where logstash will be able to read from.
 consul-template -consul=$CONSUL_URL \
 -template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf" \
--exec "logstash agent"
+-exec "logstash agent &"
