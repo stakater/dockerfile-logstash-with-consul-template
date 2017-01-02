@@ -6,5 +6,4 @@
 # mount as a volume from our host. The result is then placed in /config-dir/logstash.conf
 # where logstash will be able to read from.
 consul-template -consul=$CONSUL_URL \
--template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf" \
--exec "logstash agent &"
+-template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf:logstash -f /etc/logstash/conf.d/logstash.conf -r &"
