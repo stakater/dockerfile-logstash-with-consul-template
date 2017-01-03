@@ -6,4 +6,5 @@
 # mount as a volume from our host. The result is then placed in /config-dir/logstash.conf
 # where logstash will be able to read from.
 logstash -f /etc/logstash/conf.d/logstash.conf -r
-consul-template -consul=$CONSUL_URL -template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf"
+consul-template -consul=$CONSUL_URL \
+-template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf:service logstah stop;logstash -f /etc/logstash/conf.d/logstash.conf -r &"
