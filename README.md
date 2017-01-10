@@ -3,6 +3,11 @@
 
 A Consul Template powered Logstash docker container.
 
+## Supported Tags:
+`0.16.0` - with consul template version 0.16.0
+`0.18.0-rc1`, `latest` - with consul template version 0.18.0-rc1
+
+
 `docker run stakater/logstash-with-consul-template:latest`
 
 This image is intended to be run together with Consul and Consul-Template
