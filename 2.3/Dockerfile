@@ -1,4 +1,4 @@
-FROM stakater/logstash:latest
+FROM stakater/logstash:2.3
 
 LABEL authors="Hazim <hazim_malik@hotmail.com>, Rasheed Amir <rasheed@aurorasolutions.io>"
 
