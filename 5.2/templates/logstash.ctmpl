@@ -1,0 +1,77 @@
+input {
+        beats {
+            {{$beatsPortKey := "/logstash/beatsPort" }}
+            {{if keyExists $beatsPortKey}}
+                port => {{key $beatsPortKey}}
+            {{end}}
+        }
+}
+filter {
+  {{$syslogPatternKey := "/logstash/syslogPattern" }}
+  {{if keyExists $syslogPatternKey}}
+  if [type] == "syslog" {
+      grok {
+          match => { "message" => "{{key $syslogPatternKey }}" }
+          overwrite => ["message"]
+          remove_tag => [ "_grokparsefailure" ]
+      }
+  }
+  {{end}}
+  mutate {
+      gsub => [ "app_name", "[-:].*", "" ]
+      gsub => [ "message", "\\n", "
+" ]
+      lowercase => [ "app_name" ]
+  }
+  if !("_grokparsefailure" in [tags]) {
+    {{ scratch.Set "isAppBlockPresent" 0 }}
+    {{range $app, $app_keys := tree "/logstash/apps" | byKey}}
+      {{$isAppBlockPresent := scratch.Get "isAppBlockPresent" }}
+      {{if ne $isAppBlockPresent 0}}else{{end}}
+      if [app_name] == "{{$app}}" {
+        {{$multilineKey := printf "/logstash/apps/%s/multilinePattern" $app }}{{$grokKey := printf "/logstash/apps/%s/grokPattern" $app }}
+        {{ if keyExists $multilineKey }}
+          multiline {
+              pattern => "{{key $multilineKey}}"
+              negate => true
+              what => "previous"
+          }
+        {{ end }}{{ if keyExists $grokKey }}
+         grok {
+            match => { "message" => "{{key $grokKey }}" }
+            overwrite => ["message"]
+            remove_tag => [ "_grokparsefailure" ]
+          }
+        {{ end }}
+      }
+      {{ scratch.Set "isAppBlockPresent" 1 }}
+    {{end}}
+    {{$defaultPattern := "/logstash/defaultPattern" }}
+    {{ if keyExists $defaultPattern }}
+    {{$isAppBlockPresent := scratch.Get "isAppBlockPresent" }}
+    {{if ne $isAppBlockPresent 0}}
+      else {
+    {{end}}
+          grok {
+              match => { "message" => "{{key $defaultPattern }}" }
+              overwrite => ["message"]
+              remove_tag => [ "_grokparsefailure" ]
+          }
+    {{if ne $isAppBlockPresent 0}}
+      }
+    {{end}}
+    {{ end }}
+    date {
+      timezone => "UTC"
+      match => [ "timestamp", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss,SSS", "ISO8601", "yyyy/MM/dd HH:mm:ss", "UNIX", "dd/MMM/yyyy:HH:mm:ss.SSS"]
+      target => "@timestamp"
+      remove_field => ["timestamp"]
+    }
+  }
+}
+output {
+      stdout { }
+      elasticsearch {
+              hosts => [{{range $index, $service := service "elasticsearch-9200"}}{{if ne $index 0}},{{end}}"{{.Address}}"{{end}}]
+      }
+}
