@@ -6,7 +6,7 @@ _release_build=false
 if [ -z "${_consul_template_version}" ]; then
 	source CONSUL_TEMPLATE_VERSION
 	_consul_template_version=$CONSUL_TEMPLATE_VERSION
-	_logstash_with_consul_template_tag=$CONSUL_TEMPLATE_VERSION
+	_logstash_with_consul_template_tag="${LOGSTASH_VERSION}-${CONSUL_TEMPLATE_VERSION}"
 	_release_build=true
 fi
 
