@@ -3,7 +3,7 @@ FROM stakater/logstash:2.3
 LABEL authors="Hazim <hazim_malik@hotmail.com>, Rasheed Amir <rasheed@aurorasolutions.io>"
 
 # setting a default value to make it work on dockerhub
-ARG CONSUL_TEMPLATE_VERSION=0.18.0-rc1
+ARG CONSUL_TEMPLATE_VERSION=0.18.0
 
 # Create config dir if it does not exist
 RUN mkdir -p /config-dir

@@ -5,7 +5,7 @@ A Consul Template powered Logstash docker container.
 
 ## Supported Tags:
 * `5.2-0.18.0`, `latest` - logstash v5.2 with consul template version 0.18.0 ([5.2-0.18.0/Dockerfile](https://github.com/stakater/dockerfile-logstash-with-consul-template/blob/master/5.2/Dockerfile))
-* `2.3-0.18.0-rc1` - logstash v2.3 with consul template version 0.18.0-rc1 ([2.3-0.18.0-rc1/Dockerfile](https://github.com/stakater/dockerfile-logstash-with-consul-template/blob/master/2.3/Dockerfile))
+* `2.3-0.18.0` - logstash v2.3 with consul template version 0.18.0 ([2.3-0.18.0/Dockerfile](https://github.com/stakater/dockerfile-logstash-with-consul-template/blob/master/2.3/Dockerfile))
 
 `docker run stakater/logstash-with-consul-template:latest`
 
