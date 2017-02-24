@@ -9,4 +9,4 @@
 # the configuration file and Logstash itself reads it.
 # Note: & added so that logstash runs in a separate process and consul-template runs in this process
 logstash -f /etc/logstash/conf.d/logstash.conf -r &
-consul-template -consul=$CONSUL_URL -template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf"
+consul-template -consul-addr=$CONSUL_URL -template="/templates/logstash.ctmpl:/etc/logstash/conf.d/logstash.conf"
