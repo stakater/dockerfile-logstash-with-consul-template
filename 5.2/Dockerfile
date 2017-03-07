@@ -29,9 +29,9 @@ RUN unzip /usr/bin/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip &&
 
 VOLUME /templates
 
-# our container will expose port 5044, where Logstash will be running
+# our container will expose port 5044 & 9600, where Logstash will be running
 
-EXPOSE 5044
+EXPOSE 5044 9600
 
 # Make daemon service dir for filebeat if it doesn't exist, and empty service directory for filebeat if it already contains a daemon file
 RUN mkdir -p /etc/service/logstash && rm -rf /etc/service/logstash/*
